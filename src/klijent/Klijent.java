@@ -54,7 +54,8 @@ public class Klijent implements Runnable {
             // komunikacija sa glavnim serverom
             while (!krajZaServer) {
                 tekstKaServeru = ulaznaKonzola.readLine();
-                System.out.println(tekstKaServeru);
+                izlazniKaServeru.println(tekstKaServeru);
+
                 //proverava koje konverzije ce ovaj klijent da radi kao server i onda u boolean niz upisuje true
                 if (tekstKaServeru.startsWith("Zelim da kao server radim sledece konverzije")) {
                     if (tekstKaServeru.contains("Conv10to16")) {
@@ -103,7 +104,7 @@ public class Klijent implements Runnable {
                     return;
                 }
             }
-            while ((linijaOdKlijenta = ulazniOdKlijenta.readLine()) != null) {                
+            while ((linijaOdKlijenta = ulazniOdKlijenta.readLine()) != null) {
                 System.out.println(linijaOdKlijenta);
                 if (linijaOdServera.startsWith("!!! Dovidjenja")) {
                     krajZaKlijenta = true;
