@@ -81,10 +81,10 @@ public class Klijent implements Runnable {
                     }
                 }
                 // nakon sto napravi niz moze da bude i server jer zna koje konverzije ce da radi
-            /*    klijentSoket = serverskiSoket.accept();
-                KlijentKaoServer klijent = new KlijentKaoServer(klijentSoket, nizPovezanihKlijenata, podrzaneKonv);
-                klijent.start();
-              */  
+            
+                
+                new Thread(new KlijentKaoServer(klijentSoket = serverskiSoket.accept(), nizPovezanihKlijenata, podrzaneKonv)).start();
+                
                 // sada ako je klijent uneo tekst za konekciju otvara novi soket za komunikaciju sa klijentom/serverom
                 if (tekstKaServeru.startsWith("Konektuj se na sledecu IP adresu:")) {
                     izvuciIP = tekstKaServeru.split("#");
