@@ -55,13 +55,62 @@ public class KlijentKaoServer extends Thread {
                     izlazniTokKaKlijentu.println("konverzija 5 u 7 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv5to7 ili Conv7to5");
                 }
                 linija = ulazniTokOdKlijenta.readLine();
-                if (linija.startsWith("Konvertuj Conv10to16")) {
-                    izlazniTokKaKlijentu.println("Unesite decimalni broj koji zelite da konvertujete.");
+                if (linija.startsWith("Konvertuj Conv16to10")) {
+                    izlazniTokKaKlijentu.println("Unesite heksadecimalni broj koji zelite da konvertujete.");
                     textBroj = ulazniTokOdKlijenta.readLine();
                     broj = Integer.parseInt(textBroj, 16);
                     izlazniTokKaKlijentu.println("Vas rezultat je " + broj);
                 }
-
+                if (linija.startsWith("Konvertuj Conv10to16")) {
+                    izlazniTokKaKlijentu.println("Unesite decimalni broj koji zelite da konvertujete.");
+                    textBroj = ulazniTokOdKlijenta.readLine();
+                    broj = Integer.parseInt(textBroj);
+                    textBroj = Integer.toHexString(broj).toUpperCase();
+                    izlazniTokKaKlijentu.println("Vas rezultat je " + textBroj);
+                }
+                if (linija.startsWith("Konvertuj Conv4to8")) {
+                    izlazniTokKaKlijentu.println("Unesite broj sa osnovom 4 koji zelite da konvertujete.");
+                    textBroj = ulazniTokOdKlijenta.readLine();
+                    broj = Integer.parseInt(textBroj);
+                    textBroj = Integer.toHexString(broj).toUpperCase();
+                    izlazniTokKaKlijentu.println("Vas rezultat je " + textBroj);
+                }
+                if (linija.startsWith("Konvertuj Conv8to4")) {
+                    izlazniTokKaKlijentu.println("Unesite oktalni broj koji zelite da konvertujete.");
+                    textBroj = ulazniTokOdKlijenta.readLine();
+                    broj = Integer.parseInt(textBroj);
+                    textBroj = Integer.toHexString(broj).toUpperCase();
+                    izlazniTokKaKlijentu.println("Vas rezultat je " + textBroj);
+                }
+                if (linija.startsWith("Konvertuj Conv2to10")) {
+                    izlazniTokKaKlijentu.println("Unesite binarni broj koji zelite da konvertujete.");
+                    textBroj = ulazniTokOdKlijenta.readLine();
+                    broj = Integer.parseInt(textBroj);
+                    textBroj = Integer.toHexString(broj).toUpperCase();
+                    izlazniTokKaKlijentu.println("Vas rezultat je " + textBroj);
+                }
+                if (linija.startsWith("Konvertuj Conv10to2")) {
+                    izlazniTokKaKlijentu.println("Unesite decimalni broj koji zelite da konvertujete.");
+                    textBroj = ulazniTokOdKlijenta.readLine();
+                    broj = Integer.parseInt(textBroj);
+                    textBroj = Integer.toHexString(broj).toUpperCase();
+                    izlazniTokKaKlijentu.println("Vas rezultat je " + textBroj);
+                }
+                if (linija.startsWith("Konvertuj Conv5to7")) {
+                    izlazniTokKaKlijentu.println("Unesite broj sa osnovom 5 koji zelite da konvertujete.");
+                    textBroj = ulazniTokOdKlijenta.readLine();
+                    broj = Integer.parseInt(textBroj);
+                    textBroj = Integer.toHexString(broj).toUpperCase();
+                    izlazniTokKaKlijentu.println("Vas rezultat je " + textBroj);
+                }
+                if (linija.startsWith("Konvertuj Conv7to5")) {
+                    izlazniTokKaKlijentu.println("Unesite broj sa osnovom 7 koji zelite da konvertujete.");
+                    textBroj = ulazniTokOdKlijenta.readLine();
+                    broj = Integer.parseInt(textBroj);
+                    textBroj = Integer.toHexString(broj).toUpperCase();
+                    izlazniTokKaKlijentu.println("Vas rezultat je " + textBroj);
+                }
+                
             }
         } catch (Exception e) {
         }

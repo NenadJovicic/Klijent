@@ -4,13 +4,14 @@
  */
 package klijent;
 
-import com.sun.org.apache.xerces.internal.impl.io.ASCIIReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +30,7 @@ public class Klijent implements Runnable {
     static PrintStream izlazniKaKlijentu = null;
     static BufferedReader ulazniOdKlijenta = null;
     static boolean krajZaKlijenta = false;
+    static ArrayList<KlijentKaoServer> nizPovezanihKlijenata = new ArrayList<KlijentKaoServer>(0);
     //   static Socket soketZaKlijenta = null;
 
     public static void main(String[] args) {
@@ -36,12 +38,19 @@ public class Klijent implements Runnable {
         String[] izvuciIP;
         InetAddress adresa = null;
         boolean[] podrzaneKonv = new boolean[4];
+        Socket klijentSoket = null;
+        int portZaServerskuUlogu = 3333;
+        if (args.length > 0) {
+            portZaServerskuUlogu = Integer.parseInt(args[0]);
+        }
         try {
-            int portZaServer = 2222;
+            int portKaServeru = 2222;
+
             if (args.length > 0) {
-                portZaServer = Integer.parseInt(args[0]);
+                portKaServeru = Integer.parseInt(args[0]);
             }
-            soketZaServer = new Socket("localhost", portZaServer);
+            
+            soketZaServer = new Socket("localhost", portKaServeru);
             ulaznaKonzola = new BufferedReader(new InputStreamReader(System.in));
 
             //ulaz-izlaz ka glavnom serveru
@@ -50,7 +59,7 @@ public class Klijent implements Runnable {
 
             //nit za glavni server
             new Thread(new Klijent()).start();
-
+            ServerSocket serverskiSoket = new ServerSocket(portZaServerskuUlogu);
             // komunikacija sa glavnim serverom
             while (!krajZaServer) {
                 tekstKaServeru = ulaznaKonzola.readLine();
@@ -71,17 +80,27 @@ public class Klijent implements Runnable {
                         podrzaneKonv[3] = true;
                     }
                 }
+                // nakon sto napravi niz moze da bude i server jer zna koje konverzije ce da radi
+            /*    klijentSoket = serverskiSoket.accept();
+                KlijentKaoServer klijent = new KlijentKaoServer(klijentSoket, nizPovezanihKlijenata, podrzaneKonv);
+                klijent.start();
+              */  
                 // sada ako je klijent uneo tekst za konekciju otvara novi soket za komunikaciju sa klijentom/serverom
                 if (tekstKaServeru.startsWith("Konektuj se na sledecu IP adresu:")) {
                     izvuciIP = tekstKaServeru.split("#");
                     adresa = InetAddress.getByName(izvuciIP[1]);
-                    int portZaKlijenta = 3333;
-                    soketKaKlijentu = new Socket(adresa, portZaKlijenta);
-                    izlazniKaKlijentu = new PrintStream(soketKaKlijentu.getOutputStream());
-                    ulazniOdKlijenta = new BufferedReader(new InputStreamReader(soketKaKlijentu.getInputStream()));
-                    new Thread(new Klijent()).start();
-                    while (!krajZaKlijenta) {
-                        izlazniKaServeru.println(ulaznaKonzola.readLine());
+                    if (adresa != null) {
+                        int portZaKlijenta = 3333;
+                        if (args.length > 0) {
+                            portZaKlijenta = Integer.parseInt(args[0]);
+                        }
+                        soketKaKlijentu = new Socket(adresa, portZaKlijenta);
+                        izlazniKaKlijentu = new PrintStream(soketKaKlijentu.getOutputStream());
+                        ulazniOdKlijenta = new BufferedReader(new InputStreamReader(soketKaKlijentu.getInputStream()));
+                        new Thread(new Klijent()).start();
+                        while (!krajZaKlijenta) {
+                            izlazniKaServeru.println(ulaznaKonzola.readLine());
+                        }
                     }
                     soketKaKlijentu.close();
                 }
