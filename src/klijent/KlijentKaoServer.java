@@ -42,6 +42,8 @@ public class KlijentKaoServer extends Thread {
             izlazniTokKaKlijentu.println("Dobrodosli. ");
             while (krajKonverzije) {
                 izlazniTokKaKlijentu.println("Mozete da odradite sledece konverzije u oba smera:");
+                
+                // proverava koje konverzije podrzava
                 if (nizPodrzanihKonv[0]) {
                     izlazniTokKaKlijentu.println("konverzija 10 u 16 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv10to16 ili Conv16to10");
                 }

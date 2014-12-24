@@ -30,26 +30,22 @@ public class Klijent implements Runnable {
     static PrintStream izlazniKaKlijentu = null;
     static BufferedReader ulazniOdKlijenta = null;
     static boolean krajZaKlijenta = false;
-    static ArrayList<KlijentKaoServer> nizPovezanihKlijenata = new ArrayList<KlijentKaoServer>(0);
+    static ArrayList<KlijentKaoServer> nizPovezanihKlijenata = new ArrayList(0);
+    static boolean[] podrzaneKonv = new boolean[4];
     //   static Socket soketZaKlijenta = null;
 
     public static void main(String[] args) {
         String tekstKaServeru;
         String[] izvuciIP;
         InetAddress adresa = null;
-        boolean[] podrzaneKonv = new boolean[4];
-        Socket klijentSoket = null;
-        int portZaServerskuUlogu = 3333;
-        if (args.length > 0) {
-            portZaServerskuUlogu = Integer.parseInt(args[0]);
-        }
+
         try {
             int portKaServeru = 2222;
 
             if (args.length > 0) {
                 portKaServeru = Integer.parseInt(args[0]);
             }
-            
+
             soketZaServer = new Socket("localhost", portKaServeru);
             ulaznaKonzola = new BufferedReader(new InputStreamReader(System.in));
 
@@ -59,7 +55,7 @@ public class Klijent implements Runnable {
 
             //nit za glavni server
             new Thread(new Klijent()).start();
-            ServerSocket serverskiSoket = new ServerSocket(portZaServerskuUlogu);
+
             // komunikacija sa glavnim serverom
             while (!krajZaServer) {
                 tekstKaServeru = ulaznaKonzola.readLine();
@@ -81,10 +77,7 @@ public class Klijent implements Runnable {
                     }
                 }
                 // nakon sto napravi niz moze da bude i server jer zna koje konverzije ce da radi
-            
-                
-                new Thread(new KlijentKaoServer(klijentSoket = serverskiSoket.accept(), nizPovezanihKlijenata, podrzaneKonv)).start();
-                
+
                 // sada ako je klijent uneo tekst za konekciju otvara novi soket za komunikaciju sa klijentom/serverom
                 if (tekstKaServeru.startsWith("Konektuj se na sledecu IP adresu:")) {
                     izvuciIP = tekstKaServeru.split("#");
@@ -115,6 +108,23 @@ public class Klijent implements Runnable {
     public void run() {
         String linijaOdServera = null;
         String linijaOdKlijenta = null;
+        Socket klijentSoket = null;
+        int portZaServerskuUlogu = 3333;
+        /*    if (args.length > 0) {
+         portZaServerskuUlogu = Integer.parseInt(args[0]);
+         }
+         */
+        try {
+            ServerSocket serverskiSoket = new ServerSocket(portZaServerskuUlogu);
+            while (true) {
+                klijentSoket = serverskiSoket.accept();
+                KlijentKaoServer klijent;
+                klijent = new KlijentKaoServer(klijentSoket, nizPovezanihKlijenata, podrzaneKonv);
+                klijent.start();
+            }
+
+        } catch (Exception e) {
+        }
         try {
             while ((linijaOdServera = ulazniOdServera.readLine()) != null) {
                 System.out.println(linijaOdServera);
