@@ -9,11 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -55,49 +52,49 @@ public class Klijent implements Runnable {
 
             //nit za glavni server
             new Thread(new Klijent()).start();
-            
+
             // komunikacija sa glavnim serverom
+            tekstKaServeru = ulaznaKonzola.readLine();
+            izlazniKaServeru.println(tekstKaServeru);
+
+            //proverava koje konverzije ce ovaj klijent da radi kao server i onda u boolean niz upisuje true
+            if (tekstKaServeru.startsWith("Zelim da kao server radim sledece konverzije")) {
+                if (tekstKaServeru.contains("Conv10to16")) {
+                    podrzaneKonv[0] = true;
+                }
+                if (tekstKaServeru.contains("Conv4to8")) {
+                    podrzaneKonv[1] = true;
+                }
+                if (tekstKaServeru.contains("Conv2to10")) {
+                    podrzaneKonv[2] = true;
+                }
+                if (tekstKaServeru.contains("Conv5to10")) {
+                    podrzaneKonv[3] = true;
+                }
+            }
+            // nakon sto napravi niz moze da bude i server jer zna koje konverzije ce da radi
+//                int portZaServerskuUlogu = 3333;
+            new Thread(new Server(podrzaneKonv)).start();
             while (!krajZaServer) {
                 tekstKaServeru = ulaznaKonzola.readLine();
                 izlazniKaServeru.println(tekstKaServeru);
-
-                //proverava koje konverzije ce ovaj klijent da radi kao server i onda u boolean niz upisuje true
-                if (tekstKaServeru.startsWith("Zelim da kao server radim sledece konverzije")) {
-                    if (tekstKaServeru.contains("Conv10to16")) {
-                        podrzaneKonv[0] = true;
-                    }
-                    if (tekstKaServeru.contains("Conv4to8")) {
-                        podrzaneKonv[1] = true;
-                    }
-                    if (tekstKaServeru.contains("Conv2to10")) {
-                        podrzaneKonv[2] = true;
-                    }
-                    if (tekstKaServeru.contains("Conv5to10")) {
-                        podrzaneKonv[3] = true;
-                    }
-                }
-                // nakon sto napravi niz moze da bude i server jer zna koje konverzije ce da radi
-                int portZaServerskuUlogu = 3333;
-                new Server(portZaServerskuUlogu, podrzaneKonv).start();
-                
                 // sada ako je klijent uneo tekst za konekciju otvara novi soket za komunikaciju sa klijentom/serverom
                 if (tekstKaServeru.startsWith("Konektuj se na sledecu IP adresu:")) {
                     izvuciIP = tekstKaServeru.split("#");
                     adresa = InetAddress.getByName(izvuciIP[1]);
                     if (adresa != null) {
-                        int portZaKlijenta = 3333;
-                        if (args.length > 0) {
-                            portZaKlijenta = Integer.parseInt(args[0]);
-                        }
-                        soketKaKlijentu = new Socket(adresa, portZaKlijenta);
+                        //   int portZaKlijenta = 3333;
+//                        if (args.length > 0) {
+//                            portZaKlijenta = Integer.parseInt(args[0]);
+//                        }
+                        soketKaKlijentu = new Socket(adresa, 2000);
                         izlazniKaKlijentu = new PrintStream(soketKaKlijentu.getOutputStream());
                         ulazniOdKlijenta = new BufferedReader(new InputStreamReader(soketKaKlijentu.getInputStream()));
-                        new Thread(new Klijent()).start();
+                        ulazniOdKlijenta.readLine();
+
                         
-                        
-                        while (!krajZaKlijenta) {
                             izlazniKaKlijentu.println(ulaznaKonzola.readLine());
-                        }
+                        
                     }
                     soketKaKlijentu.close();
                 }
@@ -139,13 +136,13 @@ public class Klijent implements Runnable {
                     return;
                 }
             }
-            while ((linijaOdKlijenta = ulazniOdKlijenta.readLine()) != null) {
+/*            while ((linijaOdKlijenta = ulazniOdKlijenta.readLine()) != null) {
                 System.out.println(linijaOdKlijenta);
                 if (linijaOdServera.startsWith("!!! Dovidjenja")) {
                     krajZaKlijenta = true;
                     return;
                 }
-            }
+            } */
         } catch (IOException ex) {
 //            Logger.getLogger(Klijent.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Ispisi gresku");

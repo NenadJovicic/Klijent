@@ -53,20 +53,20 @@ public class KlijentKaoServer extends Thread {
         String textBroj;
         int broj;
         try {
-            try {
-                Socket klijentSoket = null;
-                int portZaServerskuUlogu = 3333;
-                ServerSocket serverskiSoket = new ServerSocket(portZaServerskuUlogu);
-                while (true) {
-                    klijentSoket = serverskiSoket.accept();
-                    KlijentKaoServer klijent;
-                    klijent = new KlijentKaoServer(klijentSoket, nizPovezanihKlijenata, nizPodrzanihKonv);
-                    klijent.start();
-                }
-
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+//            try {
+//                Socket klijentSoket = null;
+//                int portZaServerskuUlogu = 3333;
+//                ServerSocket serverskiSoket = new ServerSocket(portZaServerskuUlogu);
+//                while (true) {
+//                    klijentSoket = serverskiSoket.accept();
+//                    KlijentKaoServer klijent;
+//                    klijent = new KlijentKaoServer(klijentSoket, nizPovezanihKlijenata, nizPodrzanihKonv);
+//                    klijent.start();
+//                }
+//
+//            } catch (Exception e) {
+//                System.out.println(e);
+//            }
             ulazniTokOdKlijenta = new BufferedReader(new InputStreamReader(soketZaKomentare.getInputStream()));
             izlazniTokKaKlijentu = new PrintStream(soketZaKomentare.getOutputStream());
             izlazniTokKaKlijentu.println("Dobrodosli. ");

@@ -18,26 +18,29 @@ import java.util.logging.Logger;
  */
 public class Server extends Thread {
 
-    boolean radi;
+    
     ArrayList<KlijentKaoServer> listaKlijenata;
     boolean[] nizPodrzanihKonv = new boolean[4];
 
-    int port;
-    ServerSocket serverskiSoket;
+    
+    
 
-    public Server(int port, boolean[] nizPodrzanihKonv) throws IOException {
-        this.port = port;
+    public Server( boolean[] nizPodrzanihKonv) throws IOException {
+        
         this.nizPodrzanihKonv = nizPodrzanihKonv;
-        serverskiSoket = new ServerSocket(port);
-        radi = true;
+        
+        
     }
 
     @Override
     public void run() {
-       
+        int port = 2000;
+        Socket soket = null;
         try {
-            while (radi) {
-                Socket soket = serverskiSoket.accept();
+            while (true) {
+                
+                ServerSocket serverskiSoket = new ServerSocket(port);
+                soket = serverskiSoket.accept();
                 KlijentKaoServer klijent = new KlijentKaoServer(soket, listaKlijenata, nizPodrzanihKonv);
                 listaKlijenata.add(klijent);
                 klijent.start();
