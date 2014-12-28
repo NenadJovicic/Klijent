@@ -55,7 +55,7 @@ public class Klijent implements Runnable {
 
             //nit za glavni server
             new Thread(new Klijent()).start();
-
+            
             // komunikacija sa glavnim serverom
             while (!krajZaServer) {
                 tekstKaServeru = ulaznaKonzola.readLine();
@@ -77,7 +77,9 @@ public class Klijent implements Runnable {
                     }
                 }
                 // nakon sto napravi niz moze da bude i server jer zna koje konverzije ce da radi
-
+                int portZaServerskuUlogu = 3333;
+                new Server(portZaServerskuUlogu, podrzaneKonv).start();
+                
                 // sada ako je klijent uneo tekst za konekciju otvara novi soket za komunikaciju sa klijentom/serverom
                 if (tekstKaServeru.startsWith("Konektuj se na sledecu IP adresu:")) {
                     izvuciIP = tekstKaServeru.split("#");
@@ -91,8 +93,10 @@ public class Klijent implements Runnable {
                         izlazniKaKlijentu = new PrintStream(soketKaKlijentu.getOutputStream());
                         ulazniOdKlijenta = new BufferedReader(new InputStreamReader(soketKaKlijentu.getInputStream()));
                         new Thread(new Klijent()).start();
+                        
+                        
                         while (!krajZaKlijenta) {
-                            izlazniKaServeru.println(ulaznaKonzola.readLine());
+                            izlazniKaKlijentu.println(ulaznaKonzola.readLine());
                         }
                     }
                     soketKaKlijentu.close();
@@ -108,25 +112,27 @@ public class Klijent implements Runnable {
     public void run() {
         String linijaOdServera = null;
         String linijaOdKlijenta = null;
-        Socket klijentSoket = null;
-        int portZaServerskuUlogu = 3333;
+//        Socket klijentSoket = null;
+//        int portZaServerskuUlogu = 3333;
         /*    if (args.length > 0) {
          portZaServerskuUlogu = Integer.parseInt(args[0]);
          }
          */
-        try {
-            ServerSocket serverskiSoket = new ServerSocket(portZaServerskuUlogu);
-            while (true) {
-                klijentSoket = serverskiSoket.accept();
-                KlijentKaoServer klijent;
-                klijent = new KlijentKaoServer(klijentSoket, nizPovezanihKlijenata, podrzaneKonv);
-                klijent.start();
-            }
-
-        } catch (Exception e) {
-        }
+//        try {
+//            ServerSocket serverskiSoket = new ServerSocket(portZaServerskuUlogu);
+//               while (true) {
+//             klijentSoket = serverskiSoket.accept();
+//             KlijentKaoServer klijent;
+//             klijent = new KlijentKaoServer(klijentSoket, nizPovezanihKlijenata, podrzaneKonv);
+//             klijent.start();
+//             }
+//             
+//        } catch (Exception e) {
+//            System.out.println("doslo je do greske prvi deo");
+//        }
         try {
             while ((linijaOdServera = ulazniOdServera.readLine()) != null) {
+
                 System.out.println(linijaOdServera);
                 if (linijaOdServera.startsWith("!!! Dovidjenja")) {
                     krajZaServer = true;
@@ -141,7 +147,8 @@ public class Klijent implements Runnable {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(Klijent.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(Klijent.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Ispisi gresku");
         }
     }
 }
