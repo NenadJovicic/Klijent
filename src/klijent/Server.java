@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class Server extends Thread {
 
     
-    ArrayList<KlijentKaoServer> listaKlijenata;
+    ArrayList<KlijentKaoServer> listaKlijenata = new ArrayList(0);
     boolean[] nizPodrzanihKonv = new boolean[4];
 
     

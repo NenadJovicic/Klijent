@@ -70,11 +70,11 @@ public class KlijentKaoServer extends Thread {
             ulazniTokOdKlijenta = new BufferedReader(new InputStreamReader(soketZaKomentare.getInputStream()));
             izlazniTokKaKlijentu = new PrintStream(soketZaKomentare.getOutputStream());
             izlazniTokKaKlijentu.println("Dobrodosli. ");
-            while (krajKonverzije) {
+            
                 izlazniTokKaKlijentu.println("Mozete da odradite sledece konverzije u oba smera:");
 
                 // proverava koje konverzije podrzava
-                if (nizPodrzanihKonv[0]) {
+                if (nizPodrzanihKonv[0]==false) {
                     izlazniTokKaKlijentu.println("konverzija 10 u 16 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv10to16 ili Conv16to10");
                 }
                 if (nizPodrzanihKonv[1]) {
@@ -142,7 +142,7 @@ public class KlijentKaoServer extends Thread {
                     izlazniTokKaKlijentu.println("Vas rezultat je " + textBroj);
                 }
 
-            }
+            
         } catch (Exception e) {
         }
     }

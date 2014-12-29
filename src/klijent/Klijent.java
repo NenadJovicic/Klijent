@@ -37,7 +37,7 @@ public class Klijent implements Runnable {
         InetAddress adresa = null;
 
         try {
-            int portKaServeru = 2222;
+            int portKaServeru = 10101;
 
             if (args.length > 0) {
                 portKaServeru = Integer.parseInt(args[0]);
@@ -90,10 +90,11 @@ public class Klijent implements Runnable {
                         soketKaKlijentu = new Socket(adresa, 2000);
                         izlazniKaKlijentu = new PrintStream(soketKaKlijentu.getOutputStream());
                         ulazniOdKlijenta = new BufferedReader(new InputStreamReader(soketKaKlijentu.getInputStream()));
-                        ulazniOdKlijenta.readLine();
-
+                        System.out.println(ulazniOdKlijenta.readLine());
+                        System.out.println(ulazniOdKlijenta.readLine());
+                        System.out.println(ulazniOdKlijenta.readLine());
                         
-                            izlazniKaKlijentu.println(ulaznaKonzola.readLine());
+                        System.out.println(ulazniOdKlijenta.readLine());
                         
                     }
                     soketKaKlijentu.close();
@@ -136,13 +137,13 @@ public class Klijent implements Runnable {
                     return;
                 }
             }
-/*            while ((linijaOdKlijenta = ulazniOdKlijenta.readLine()) != null) {
-                System.out.println(linijaOdKlijenta);
-                if (linijaOdServera.startsWith("!!! Dovidjenja")) {
-                    krajZaKlijenta = true;
-                    return;
-                }
-            } */
+            /*            while ((linijaOdKlijenta = ulazniOdKlijenta.readLine()) != null) {
+             System.out.println(linijaOdKlijenta);
+             if (linijaOdServera.startsWith("!!! Dovidjenja")) {
+             krajZaKlijenta = true;
+             return;
+             }
+             } */
         } catch (IOException ex) {
 //            Logger.getLogger(Klijent.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Ispisi gresku");
