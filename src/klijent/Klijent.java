@@ -71,10 +71,11 @@ public class Klijent implements Runnable {
                 if (tekstKaServeru.contains("Conv5to10")) {
                     podrzaneKonv[3] = true;
                 }
+                 
             }
             // nakon sto napravi niz moze da bude i server jer zna koje konverzije ce da radi
 //                int portZaServerskuUlogu = 3333;
-            new Thread(new Server(podrzaneKonv)).start();
+           new Thread(new Server(podrzaneKonv)).start();
             while (!krajZaServer) {
                 tekstKaServeru = ulaznaKonzola.readLine();
                 izlazniKaServeru.println(tekstKaServeru);
@@ -93,9 +94,10 @@ public class Klijent implements Runnable {
                         System.out.println(ulazniOdKlijenta.readLine());
                         System.out.println(ulazniOdKlijenta.readLine());
                         System.out.println(ulazniOdKlijenta.readLine());
-                        
+                        izlazniKaKlijentu.println(ulaznaKonzola.readLine());
                         System.out.println(ulazniOdKlijenta.readLine());
-                        
+                        izlazniKaKlijentu.println(ulaznaKonzola.readLine());
+                        System.out.println(ulazniOdKlijenta.readLine());
                     }
                     soketKaKlijentu.close();
                 }

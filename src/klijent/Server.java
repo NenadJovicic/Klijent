@@ -20,14 +20,14 @@ public class Server extends Thread {
 
     
     ArrayList<KlijentKaoServer> listaKlijenata = new ArrayList(0);
-    boolean[] nizPodrzanihKonv = new boolean[4];
+    static boolean[] nizPodrzanihKonv = new boolean[4];
 
     
     
 
     public Server( boolean[] nizPodrzanihKonv) throws IOException {
         
-        this.nizPodrzanihKonv = nizPodrzanihKonv;
+        Server.nizPodrzanihKonv = nizPodrzanihKonv;
         
         
     }
@@ -37,11 +37,12 @@ public class Server extends Thread {
         int port = 2000;
         Socket soket = null;
         try {
+            ServerSocket serverskiSoket = new ServerSocket(port);
             while (true) {
                 
-                ServerSocket serverskiSoket = new ServerSocket(port);
+                
                 soket = serverskiSoket.accept();
-                KlijentKaoServer klijent = new KlijentKaoServer(soket, listaKlijenata, nizPodrzanihKonv);
+                KlijentKaoServer klijent = new KlijentKaoServer(soket, listaKlijenata, Server.nizPodrzanihKonv);
                 listaKlijenata.add(klijent);
                 klijent.start();
             }

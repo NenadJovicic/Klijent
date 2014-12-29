@@ -72,20 +72,21 @@ public class KlijentKaoServer extends Thread {
             izlazniTokKaKlijentu.println("Dobrodosli. ");
             
                 izlazniTokKaKlijentu.println("Mozete da odradite sledece konverzije u oba smera:");
-
+                String s="Konverzije ";
                 // proverava koje konverzije podrzava
-                if (nizPodrzanihKonv[0]==false) {
-                    izlazniTokKaKlijentu.println("konverzija 10 u 16 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv10to16 ili Conv16to10");
+                if (nizPodrzanihKonv[0]) {
+                    s=s+"konverzija 10 u 16 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv10to16 ili Conv16to10. ";
                 }
                 if (nizPodrzanihKonv[1]) {
-                    izlazniTokKaKlijentu.println("konverzija 4 u 8 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv4to8 ili Conv8to4");
+                    s=s+"konverzija 4 u 8 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv4to8 ili Conv8to4. ";
                 }
                 if (nizPodrzanihKonv[2]) {
-                    izlazniTokKaKlijentu.println("konverzija 2 u 10 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv10to2 ili Conv2to10");
+                    s=s+"konverzija 2 u 10 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv10to2 ili Conv2to10. ";
                 }
                 if (nizPodrzanihKonv[3]) {
-                    izlazniTokKaKlijentu.println("konverzija 5 u 7 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv5to7 ili Conv7to5");
+                    s=s+"konverzija 5 u 7 i obrnuto. Da odaberete ovu konverziju unesite: \"Konvertuj\" pa razmak i onda simbol za konverziju Conv5to7 ili Conv7to5.";
                 }
+                izlazniTokKaKlijentu.println(s);
                 linija = ulazniTokOdKlijenta.readLine();
                 if (linija.startsWith("Konvertuj Conv16to10")) {
                     izlazniTokKaKlijentu.println("Unesite heksadecimalni broj koji zelite da konvertujete.");
